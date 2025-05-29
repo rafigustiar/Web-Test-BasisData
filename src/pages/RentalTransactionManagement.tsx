@@ -26,7 +26,7 @@ import {
   mockEmployees,
 } from "@/lib/data";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Clock, Play, Pause, Stop, MapPin, User } from "lucide-react";
+import { Clock, Play, Pause, Square, MapPin, User } from "lucide-react";
 
 const statusColors = {
   Active: "bg-green-600",
@@ -332,7 +332,7 @@ export default function RentalTransactionManagement() {
                 onClick={() => handleCompleteRental(rental)}
                 className="w-full bg-blue-600 hover:bg-blue-700"
               >
-                <Stop className="w-3 h-3 mr-1" />
+                <Square className="w-3 h-3 mr-1" />
                 Complete Rental
               </Button>
             </div>
