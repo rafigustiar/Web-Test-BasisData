@@ -5,6 +5,10 @@ import CustomerManagement from "@/pages/CustomerManagement";
 import EmployeeManagement from "@/pages/EmployeeManagement";
 import MenuManagement from "@/pages/MenuManagement";
 import BilliardTableManagement from "@/pages/BilliardTableManagement";
+import OrderManagement from "@/pages/OrderManagement";
+import PaymentManagement from "@/pages/PaymentManagement";
+import ReservationManagement from "@/pages/ReservationManagement";
+import RentalTransactionManagement from "@/pages/RentalTransactionManagement";
 import NotFound from "@/pages/NotFound";
 import "./App.css";
 
@@ -18,38 +22,10 @@ function App() {
           <Route path="/employees" element={<EmployeeManagement />} />
           <Route path="/menu" element={<MenuManagement />} />
           <Route path="/tables" element={<BilliardTableManagement />} />
-          <Route
-            path="/orders"
-            element={
-              <div className="text-white text-center py-20">
-                Orders Management - Coming Soon
-              </div>
-            }
-          />
-          <Route
-            path="/payments"
-            element={
-              <div className="text-white text-center py-20">
-                Payment Management - Coming Soon
-              </div>
-            }
-          />
-          <Route
-            path="/reservations"
-            element={
-              <div className="text-white text-center py-20">
-                Reservation Management - Coming Soon
-              </div>
-            }
-          />
-          <Route
-            path="/rentals"
-            element={
-              <div className="text-white text-center py-20">
-                Rental Management - Coming Soon
-              </div>
-            }
-          />
+          <Route path="/orders" element={<OrderManagement />} />
+          <Route path="/payments" element={<PaymentManagement />} />
+          <Route path="/reservations" element={<ReservationManagement />} />
+          <Route path="/rentals" element={<RentalTransactionManagement />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
