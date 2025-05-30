@@ -14,6 +14,8 @@ import {
   LayoutDashboard,
   Menu,
   X,
+  Bell,
+  Settings,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -22,15 +24,25 @@ interface LayoutProps {
 }
 
 const navigationItems = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/customers", label: "Customers", icon: Users },
-  { href: "/employees", label: "Employees", icon: UserCheck },
-  { href: "/menu", label: "Menu Cafe", icon: Coffee },
-  { href: "/orders", label: "Orders", icon: ShoppingCart },
-  { href: "/payments", label: "Payments", icon: CreditCard },
-  { href: "/reservations", label: "Reservations", icon: Calendar },
-  { href: "/rentals", label: "Rentals", icon: Receipt },
-  { href: "/tables", label: "Billiard Tables", icon: CircleDot },
+  { href: "/", label: "Dashboard", icon: LayoutDashboard, group: "main" },
+  { href: "/customers", label: "Customers", icon: Users, group: "management" },
+  { href: "/employees", label: "Staff", icon: UserCheck, group: "management" },
+  { href: "/menu", label: "Menu", icon: Coffee, group: "operations" },
+  { href: "/orders", label: "Orders", icon: ShoppingCart, group: "operations" },
+  {
+    href: "/payments",
+    label: "Payments",
+    icon: CreditCard,
+    group: "operations",
+  },
+  {
+    href: "/reservations",
+    label: "Reservations",
+    icon: Calendar,
+    group: "billiard",
+  },
+  { href: "/rentals", label: "Rentals", icon: Receipt, group: "billiard" },
+  { href: "/tables", label: "Tables", icon: CircleDot, group: "billiard" },
 ];
 
 export function Layout({ children }: LayoutProps) {
@@ -40,22 +52,29 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
-      <header className="bg-black/20 backdrop-blur-sm border-b border-slate-700/50">
+      <header className="sticky top-0 z-50 bg-black/30 backdrop-blur-lg border-b border-slate-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <CircleDot className="w-5 h-5 text-white" />
+            {/* Logo Section - Enhanced */}
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-purple-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
+                  <CircleDot className="w-5 h-5 text-white" />
+                </div>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-900"></div>
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-white">Amorty</h1>
-                <p className="text-xs text-slate-400">& CAFE</p>
+              <div className="flex flex-col">
+                <h1 className="text-xl font-bold text-white tracking-tight">
+                  Amorty
+                </h1>
+                <p className="text-xs text-slate-400 font-medium tracking-wider">
+                  BILLIARDS & CAFE
+                </p>
               </div>
             </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex space-x-1">
+            {/* Desktop Navigation - Improved */}
+            <nav className="hidden lg:flex items-center space-x-1">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.href;
@@ -65,27 +84,56 @@ export function Layout({ children }: LayoutProps) {
                     key={item.href}
                     to={item.href}
                     className={cn(
-                      "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+                      "relative flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group",
                       isActive
-                        ? "bg-blue-600 text-white shadow-lg"
-                        : "text-slate-300 hover:text-white hover:bg-slate-700/50",
+                        ? "bg-blue-600/90 text-white shadow-lg shadow-blue-600/25"
+                        : "text-slate-300 hover:text-white hover:bg-slate-700/60",
                     )}
                   >
-                    <Icon className="w-4 h-4" />
-                    <span>{item.label}</span>
+                    <Icon
+                      className={cn(
+                        "w-4 h-4 transition-transform duration-200",
+                        isActive ? "scale-110" : "group-hover:scale-105",
+                      )}
+                    />
+                    <span className="hidden xl:inline">{item.label}</span>
+                    {isActive && (
+                      <div className="absolute inset-0 bg-blue-600/20 rounded-lg blur-sm -z-10"></div>
+                    )}
                   </Link>
                 );
               })}
             </nav>
 
-            {/* Staff Area Button */}
-            <div className="hidden lg:flex items-center space-x-4">
-              <span className="text-sm text-slate-400">
-                Tel: (0341) - 487789
-              </span>
+            {/* Right Side Actions - Enhanced */}
+            <div className="hidden lg:flex items-center space-x-3">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-slate-400 hover:text-white hover:bg-slate-700/50 relative"
+              >
+                <Bell className="w-4 h-4" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-slate-400 hover:text-white hover:bg-slate-700/50"
+              >
+                <Settings className="w-4 h-4" />
+              </Button>
+
+              <div className="w-px h-6 bg-slate-600"></div>
+
+              <div className="flex items-center space-x-2 text-xs text-slate-400">
+                <span>Tel:</span>
+                <span className="text-slate-300">(0341) 487789</span>
+              </div>
+
               <Button
                 size="sm"
-                className="bg-pink-600 hover:bg-pink-700 text-white"
+                className="bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white shadow-lg hover:shadow-pink-600/25 transition-all duration-200"
               >
                 Staff Area
               </Button>
@@ -95,7 +143,7 @@ export function Layout({ children }: LayoutProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="lg:hidden text-white"
+              className="lg:hidden text-white hover:bg-slate-700/50"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (
@@ -108,35 +156,60 @@ export function Layout({ children }: LayoutProps) {
         </div>
       </header>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Improved */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-black/30 backdrop-blur-sm border-b border-slate-700/50">
-          <nav className="max-w-7xl mx-auto px-4 py-4 space-y-2">
-            {navigationItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.href;
+        <div className="lg:hidden bg-black/40 backdrop-blur-lg border-b border-slate-700/50">
+          <nav className="max-w-7xl mx-auto px-4 py-4">
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {navigationItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.href;
 
-              return (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={cn(
-                    "flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
-                    isActive
-                      ? "bg-blue-600 text-white"
-                      : "text-slate-300 hover:text-white hover:bg-slate-700/50",
-                  )}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-            <div className="pt-4 border-t border-slate-700/50">
+                return (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn(
+                      "flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200",
+                      isActive
+                        ? "bg-blue-600/90 text-white shadow-lg"
+                        : "text-slate-300 hover:text-white hover:bg-slate-700/60",
+                    )}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Mobile Actions */}
+            <div className="pt-4 border-t border-slate-700/50 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-slate-400">
+                  Tel: (0341) 487789
+                </span>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-slate-400 hover:text-white"
+                  >
+                    <Bell className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-slate-400 hover:text-white"
+                  >
+                    <Settings className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
               <Button
                 size="sm"
-                className="w-full bg-pink-600 hover:bg-pink-700 text-white"
+                className="w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white"
               >
                 Staff Area
               </Button>
@@ -150,11 +223,17 @@ export function Layout({ children }: LayoutProps) {
         {children}
       </main>
 
-      {/* Background Elements */}
+      {/* Enhanced Background Elements */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-green-500/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/3 rounded-full blur-3xl animate-pulse" />
+        <div
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/3 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 w-96 h-96 bg-green-500/2 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"
+          style={{ animationDelay: "2s" }}
+        />
       </div>
     </div>
   );
