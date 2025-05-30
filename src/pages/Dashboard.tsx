@@ -69,17 +69,17 @@ export default function Dashboard() {
         <p className="text-xl text-slate-400">Management Dashboard</p>
       </div>
 
-      {/* Optimized Stats Cards */}
+      {/* Optimized Stats Cards - Darker Theme */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total Customers - Ocean Blue Theme */}
-        <Card className="relative overflow-hidden bg-gradient-to-br from-cyan-500/10 via-blue-600/10 to-indigo-700/10 border-cyan-400/20 hover:border-cyan-400/40 transition-all duration-300 group">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-600/5 to-indigo-700/5"></div>
+        {/* Total Customers - Dark Blue Theme */}
+        <Card className="relative overflow-hidden bg-slate-800/60 border-slate-700/50 hover:border-slate-600/70 transition-all duration-300 group backdrop-blur-sm">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-slate-800/40 to-slate-900/60"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-white">
               Total Customers
             </CardTitle>
-            <div className="p-2 bg-cyan-500/20 rounded-lg group-hover:bg-cyan-500/30 transition-colors">
-              <Users className="h-4 w-4 text-cyan-400" />
+            <div className="p-2 bg-blue-500/20 rounded-lg group-hover:bg-blue-500/30 transition-colors border border-blue-500/20">
+              <Users className="h-4 w-4 text-blue-400" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -93,15 +93,15 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Today's Revenue - Emerald Green Theme */}
-        <Card className="relative overflow-hidden bg-gradient-to-br from-emerald-500/10 via-green-600/10 to-teal-700/10 border-emerald-400/20 hover:border-emerald-400/40 transition-all duration-300 group">
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-green-600/5 to-teal-700/5"></div>
+        {/* Today's Revenue - Dark Green Theme */}
+        <Card className="relative overflow-hidden bg-slate-800/60 border-slate-700/50 hover:border-slate-600/70 transition-all duration-300 group backdrop-blur-sm">
+          <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 via-slate-800/40 to-slate-900/60"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-white">
               Today's Revenue
             </CardTitle>
-            <div className="p-2 bg-emerald-500/20 rounded-lg group-hover:bg-emerald-500/30 transition-colors">
-              <DollarSign className="h-4 w-4 text-emerald-400" />
+            <div className="p-2 bg-green-500/20 rounded-lg group-hover:bg-green-500/30 transition-colors border border-green-500/20">
+              <DollarSign className="h-4 w-4 text-green-400" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -115,15 +115,15 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Available Tables - Violet Purple Theme */}
-        <Card className="relative overflow-hidden bg-gradient-to-br from-violet-500/10 via-purple-600/10 to-fuchsia-700/10 border-violet-400/20 hover:border-violet-400/40 transition-all duration-300 group">
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-purple-600/5 to-fuchsia-700/5"></div>
+        {/* Available Tables - Dark Purple Theme */}
+        <Card className="relative overflow-hidden bg-slate-800/60 border-slate-700/50 hover:border-slate-600/70 transition-all duration-300 group backdrop-blur-sm">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-slate-800/40 to-slate-900/60"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-white">
               Available Tables
             </CardTitle>
-            <div className="p-2 bg-violet-500/20 rounded-lg group-hover:bg-violet-500/30 transition-colors">
-              <CircleDot className="h-4 w-4 text-violet-400" />
+            <div className="p-2 bg-purple-500/20 rounded-lg group-hover:bg-purple-500/30 transition-colors border border-purple-500/20">
+              <CircleDot className="h-4 w-4 text-purple-400" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -137,15 +137,15 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Active Rentals - Amber Orange Theme */}
-        <Card className="relative overflow-hidden bg-gradient-to-br from-amber-500/10 via-orange-600/10 to-red-700/10 border-amber-400/20 hover:border-amber-400/40 transition-all duration-300 group">
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-orange-600/5 to-red-700/5"></div>
+        {/* Active Rentals - Dark Orange Theme */}
+        <Card className="relative overflow-hidden bg-slate-800/60 border-slate-700/50 hover:border-slate-600/70 transition-all duration-300 group backdrop-blur-sm">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-900/20 via-slate-800/40 to-slate-900/60"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-white">
               Active Rentals
             </CardTitle>
-            <div className="p-2 bg-amber-500/20 rounded-lg group-hover:bg-amber-500/30 transition-colors">
-              <Zap className="h-4 w-4 text-amber-400" />
+            <div className="p-2 bg-orange-500/20 rounded-lg group-hover:bg-orange-500/30 transition-colors border border-orange-500/20">
+              <Zap className="h-4 w-4 text-orange-400" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -159,7 +159,6 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
-
       {/* Secondary Management Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-slate-800/40 border-slate-700/50 hover:bg-slate-800/60 transition-colors backdrop-blur-sm">
@@ -346,20 +345,20 @@ export default function Dashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <button className="p-4 bg-cyan-600/20 border border-cyan-500/30 rounded-lg hover:bg-cyan-600/30 transition-colors">
-              <Users className="h-6 w-6 text-cyan-400 mx-auto mb-2" />
+            <button className="p-4 bg-slate-700/50 border border-slate-600/50 rounded-lg hover:bg-slate-700/70 hover:border-blue-500/30 transition-all duration-200">
+              <Users className="h-6 w-6 text-blue-400 mx-auto mb-2" />
               <p className="text-sm text-white">Add Customer</p>
             </button>
-            <button className="p-4 bg-emerald-600/20 border border-emerald-500/30 rounded-lg hover:bg-emerald-600/30 transition-colors">
-              <ShoppingCart className="h-6 w-6 text-emerald-400 mx-auto mb-2" />
+            <button className="p-4 bg-slate-700/50 border border-slate-600/50 rounded-lg hover:bg-slate-700/70 hover:border-green-500/30 transition-all duration-200">
+              <ShoppingCart className="h-6 w-6 text-green-400 mx-auto mb-2" />
               <p className="text-sm text-white">New Order</p>
             </button>
-            <button className="p-4 bg-violet-600/20 border border-violet-500/30 rounded-lg hover:bg-violet-600/30 transition-colors">
-              <Calendar className="h-6 w-6 text-violet-400 mx-auto mb-2" />
+            <button className="p-4 bg-slate-700/50 border border-slate-600/50 rounded-lg hover:bg-slate-700/70 hover:border-purple-500/30 transition-all duration-200">
+              <Calendar className="h-6 w-6 text-purple-400 mx-auto mb-2" />
               <p className="text-sm text-white">Make Reservation</p>
             </button>
-            <button className="p-4 bg-amber-600/20 border border-amber-500/30 rounded-lg hover:bg-amber-600/30 transition-colors">
-              <CircleDot className="h-6 w-6 text-amber-400 mx-auto mb-2" />
+            <button className="p-4 bg-slate-700/50 border border-slate-600/50 rounded-lg hover:bg-slate-700/70 hover:border-orange-500/30 transition-all duration-200">
+              <CircleDot className="h-6 w-6 text-orange-400 mx-auto mb-2" />
               <p className="text-sm text-white">Start Rental</p>
             </button>
           </div>
