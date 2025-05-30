@@ -58,9 +58,13 @@ export function Layout({ children }: LayoutProps) {
             {/* Logo Section - Enhanced */}
             <div className="flex items-center space-x-3">
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-purple-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-                  <CircleDot className="w-5 h-5 text-white" />
-                </div>
+                <div
+                  className="w-10 h-10 rounded-xl shadow-lg bg-no-repeat bg-center bg-cover"
+                  style={{
+                    backgroundImage:
+                      "url(https://cdn.builder.io/api/v1/image/assets%2F420a2dccf542446cabbce903b3e093cd%2F595bdb5ec74c409aba04ec2433147a93)",
+                  }}
+                />
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-900"></div>
               </div>
               <div className="flex flex-col">
