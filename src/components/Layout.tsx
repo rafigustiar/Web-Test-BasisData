@@ -49,7 +49,7 @@ export function Layout({ children }: LayoutProps) {
                 <CircleDot className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white">ION POOL</h1>
+                <h1 className="text-xl font-bold text-white">Amorty</h1>
                 <p className="text-xs text-slate-400">& CAFE</p>
               </div>
             </div>

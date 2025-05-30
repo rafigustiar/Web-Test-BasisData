@@ -62,7 +62,7 @@ export default function Dashboard() {
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-white mb-2">Ion Pool & Cafe</h1>
+        <h1 className="text-4xl font-bold text-white mb-2">Amorty & Cafe</h1>
         <p className="text-xl text-slate-400">Management Dashboard</p>
       </div>
 
