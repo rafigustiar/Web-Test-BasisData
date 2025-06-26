@@ -12,7 +12,7 @@ class StatusMeja(Enum):
 
 class StatusReservasi(Enum):
     PENDING = "PENDING"
-    CONFIRMED = "CONFIRMED" 
+    CONFIRMED = "CONFIRMED"
     CANCELLED = "CANCELLED"
     COMPLETED = "COMPLETED"
 
@@ -30,7 +30,7 @@ class MetodePembayaran(Enum):
 class Customer(rx.Model, table=True):
     """Customer table - Tabel pelanggan."""
     __tablename__ = "CUSTOMER"
-    
+
     ID_Customer: str = rx.Field(primary_key=True)  # Format: CUS1, CUS2, etc.
     Nama_Customer: str
     Kontak_Customer: str
@@ -38,7 +38,7 @@ class Customer(rx.Model, table=True):
 class Karyawan(rx.Model, table=True):
     """Karyawan table - Tabel karyawan."""
     __tablename__ = "KARYAWAN"
-    
+
     ID_Karyawan: str = rx.Field(primary_key=True)  # Format: KAR1, KAR2, etc.
     Nama_Karyawan: str
     Tanggal_Masuk: datetime
@@ -47,7 +47,7 @@ class Karyawan(rx.Model, table=True):
 class Meja(rx.Model, table=True):
     """Meja table - Tabel meja billiard."""
     __tablename__ = "MEJA"
-    
+
     ID_Meja: str = rx.Field(primary_key=True)  # Format: MJ1, MJ2, etc.
     Nomor_Meja: int
     Status_Meja: str = "AVAILABLE"  # AVAILABLE, DIPESAN, TERPAKAI
@@ -56,7 +56,7 @@ class Meja(rx.Model, table=True):
 class Menu(rx.Model, table=True):
     """Menu table - Tabel menu cafe."""
     __tablename__ = "MENU"
-    
+
     ID_Menu: str = rx.Field(primary_key=True)  # Format: MN1, MN2, etc.
     Nama_Menu: str
     Harga_Menu: float
@@ -65,7 +65,7 @@ class Menu(rx.Model, table=True):
 class Pesanan(rx.Model, table=True):
     """Pesanan table - Tabel pesanan."""
     __tablename__ = "PESANAN"
-    
+
     ID_Pesanan: str = rx.Field(primary_key=True)  # Format: PES1, PES2, etc.
     ID_Customer: str  # FK to Customer
     ID_Karyawan: Optional[str] = None  # FK to Karyawan
@@ -76,7 +76,7 @@ class Pesanan(rx.Model, table=True):
 class Transaksi(rx.Model, table=True):
     """Transaksi table - Tabel transaksi."""
     __tablename__ = "TRANSAKSI"
-    
+
     ID_Transaksi: str = rx.Field(primary_key=True)  # Format: TRX1, TRX2, etc.
     ID_Pesanan: str  # FK to Pesanan
     Total_Harga: float
@@ -86,7 +86,7 @@ class Transaksi(rx.Model, table=True):
 class Pembayaran(rx.Model, table=True):
     """Pembayaran table - Tabel pembayaran."""
     __tablename__ = "PEMBAYARAN"
-    
+
     ID_Pembayaran: str = rx.Field(primary_key=True)  # Format: PB1, PB2, etc.
     ID_Pesanan: str  # FK to Pesanan
     ID_Transaksi: str  # FK to Transaksi
@@ -98,7 +98,7 @@ class Pembayaran(rx.Model, table=True):
 class Reservasi(rx.Model, table=True):
     """Reservasi table - Tabel reservasi meja."""
     __tablename__ = "RESERVASI"
-    
+
     ID_Reservasi: str = rx.Field(primary_key=True)  # Format: RSV1, RSV2, etc.
     ID_Customer: str  # FK to Customer
     ID_Meja: str  # FK to Meja
@@ -125,49 +125,49 @@ def get_prefix_for_table(table_name: str) -> str:
 def generate_custom_id(table_name: str, prefix: str = None) -> str:
     """Generate custom ID for table."""
     import re
-    from .database import get_oracle_session
-    
+
     if not prefix:
         prefix = get_prefix_for_table(table_name)
-    
-    session = get_oracle_session()
-    if not session:
-        return f"{prefix}1"
-    
+
     try:
-        # Get the model class based on table name
-        model_map = {
-            'CUSTOMER': Customer,
-            'KARYAWAN': Karyawan,
-            'MEJA': Meja,
-            'MENU': Menu,
-            'PESANAN': Pesanan,
-            'TRANSAKSI': Transaksi,
-            'PEMBAYARAN': Pembayaran,
-            'RESERVASI': Reservasi,
-        }
-        
-        model_class = model_map.get(table_name.upper())
-        if not model_class:
-            return f"{prefix}1"
-        
-        # Get the primary key field name
-        id_field = list(model_class.__table__.primary_key.columns)[0].name
-        
-        # Query to get max number from existing IDs
-        query = f"""
-            SELECT MAX(CAST(REGEXP_SUBSTR({id_field}, '\\d+') AS NUMBER)) 
-            FROM {table_name} 
-            WHERE {id_field} LIKE :prefix
-        """
-        
-        result = session.execute(rx.text(query), {"prefix": f"{prefix}%"}).scalar()
-        next_number = 1 if result is None else int(result) + 1
-        
-        return f"{prefix}{next_number}"
-        
+        with rx.session() as session:
+            if not session:
+                return f"{prefix}1"
+
+            # Get the model class based on table name
+            model_map = {
+                'CUSTOMER': Customer,
+                'KARYAWAN': Karyawan,
+                'MEJA': Meja,
+                'MENU': Menu,
+                'PESANAN': Pesanan,
+                'TRANSAKSI': Transaksi,
+                'PEMBAYARAN': Pembayaran,
+                'RESERVASI': Reservasi,
+            }
+
+            model_class = model_map.get(table_name.upper())
+            if not model_class:
+                return f"{prefix}1"
+
+            # Get all existing IDs for this table
+            items = session.query(model_class).all()
+
+            # Extract numbers from existing IDs
+            max_num = 0
+            for item in items:
+                id_field = list(model_class.__table__.primary_key.columns)[0].name
+                existing_id = getattr(item, id_field, "")
+                if existing_id.startswith(prefix):
+                    try:
+                        num_part = existing_id[len(prefix):]
+                        if num_part.isdigit():
+                            max_num = max(max_num, int(num_part))
+                    except:
+                        continue
+
+            return f"{prefix}{max_num + 1}"
+
     except Exception as e:
         print(f"Error generating ID for {table_name}: {e}")
         return f"{prefix}1"
-    finally:
-        session.close()

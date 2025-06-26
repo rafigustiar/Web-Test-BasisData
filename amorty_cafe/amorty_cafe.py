@@ -1,17 +1,20 @@
 """Main Amorty Cafe Management System application."""
 import reflex as rx
-from .pages.login import login_page
-from .pages.signup import signup_page
-from .pages.dashboard import dashboard_page
-from .pages.customers import customers_page
+from .pages.login_rafi import login_page
+from .pages.admin_dashboard import admin_dashboard_page
+from .pages.customer_dashboard import customer_dashboard_page
 from .auth import AuthState
 
 # Add routes
 def index() -> rx.Component:
-    """Index page redirects to dashboard or login."""
+    """Index page redirects based on authentication and role."""
     return rx.cond(
         AuthState.is_authenticated,
-        dashboard_page(),
+        rx.cond(
+            AuthState.current_user.get("role") == "admin",
+            rx.redirect("/admin-dashboard"),
+            rx.redirect("/customer-dashboard")
+        ),
         rx.redirect("/login")
     )
 
@@ -32,30 +35,8 @@ app = rx.App(
 # Add pages
 app.add_page(index, route="/")
 app.add_page(login_page, route="/login")
-app.add_page(signup_page, route="/signup")
-app.add_page(dashboard_page, route="/dashboard")
-app.add_page(customers_page, route="/customers")
-
-# Add customer dashboard (simplified version)
-@rx.page(route="/customer-dashboard")
-def customer_dashboard():
-    """Customer dashboard page."""
-    return rx.box(
-        rx.container(
-            rx.vstack(
-                rx.heading("Customer Dashboard", class_name="text-3xl font-bold text-white text-center"),
-                rx.text("Welcome to Amorty Billiards & Cafe!", class_name="text-xl text-slate-400 text-center"),
-                rx.button(
-                    "Logout",
-                    on_click=AuthState.logout,
-                    class_name="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg"
-                ),
-                class_name="min-h-screen flex flex-col justify-center items-center space-y-8"
-            ),
-            class_name="max-w-4xl mx-auto px-4"
-        ),
-        class_name="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
-    )
+app.add_page(admin_dashboard_page, route="/admin-dashboard")
+app.add_page(customer_dashboard_page, route="/customer-dashboard")
 
 if __name__ == "__main__":
     app.run()
