@@ -23,7 +23,18 @@ def index() -> rx.Component:
         style={"text_align": "center"}
     )
 
-# Simple login page
+# Simple login page with state
+class LoginState(rx.State):
+    admin_username: str = ""
+    admin_password: str = ""
+    customer_id: str = ""
+
+    def handle_admin_login(self):
+        return AuthState.login_admin(self.admin_username, self.admin_password)
+
+    def handle_customer_login(self):
+        return AuthState.login_customer(self.customer_id)
+
 def login_page() -> rx.Component:
     """Login page."""
     return rx.container(
@@ -36,21 +47,20 @@ def login_page() -> rx.Component:
                     rx.heading("👑 Admin Login", size="6"),
                     rx.input(
                         placeholder="Username Admin",
-                        id="admin_username",
+                        value=LoginState.admin_username,
+                        on_change=LoginState.set_admin_username,
                         size="3"
                     ),
                     rx.input(
                         placeholder="Password Admin",
                         type="password",
-                        id="admin_password",
+                        value=LoginState.admin_password,
+                        on_change=LoginState.set_admin_password,
                         size="3"
                     ),
                     rx.button(
                         "Login Admin",
-                        on_click=lambda: AuthState.login_admin(
-                            rx.get_value("admin_username"),
-                            rx.get_value("admin_password")
-                        ),
+                        on_click=LoginState.handle_admin_login,
                         size="3",
                         width="100%"
                     ),
@@ -68,14 +78,13 @@ def login_page() -> rx.Component:
                     rx.heading("👤 Customer Login", size="6"),
                     rx.input(
                         placeholder="Customer ID (contoh: CUS1)",
-                        id="customer_id",
+                        value=LoginState.customer_id,
+                        on_change=LoginState.set_customer_id,
                         size="3"
                     ),
                     rx.button(
                         "Login Customer",
-                        on_click=lambda: AuthState.login_customer(
-                            rx.get_value("customer_id")
-                        ),
+                        on_click=LoginState.handle_customer_login,
                         size="3",
                         width="100%"
                     ),
