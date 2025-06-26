@@ -1,9 +1,12 @@
 import reflex as rx
+import os
 
 config = rx.Config(
     app_name="amorty_cafe",
     db_url="sqlite:///reflex.db",  # Will be replaced with Oracle in production
     env=rx.Env.DEV,
+    port=3000,
+    backend_port=8000,
     frontend_packages=[
         "lucide-react",
         "@radix-ui/themes",
@@ -14,7 +17,7 @@ config = rx.Config(
                 "colors": {
                     "slate": {
                         "50": "#f8fafc",
-                        "100": "#f1f5f9", 
+                        "100": "#f1f5f9",
                         "200": "#e2e8f0",
                         "300": "#cbd5e1",
                         "400": "#94a3b8",
