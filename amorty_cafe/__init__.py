@@ -1,0 +1,1 @@
+"""Amorty Cafe Management System."""
