@@ -11,23 +11,23 @@ import json
 
 class OracleDatabase:
     """Oracle database connection and management."""
-    
+
     def __init__(self):
         self.connection_string = self._get_oracle_connection_string()
         self.engine = None
         self.session_maker = None
-    
+
     def _get_oracle_connection_string(self) -> str:
         """Get Oracle connection string from environment variables."""
-        # Default values for local development
+        # Default values based on Rafi's configuration
         host = os.getenv("ORACLE_HOST", "localhost")
         port = os.getenv("ORACLE_PORT", "1521")
-        service_name = os.getenv("ORACLE_SERVICE_NAME", "XE")
-        username = os.getenv("ORACLE_USERNAME", "amorty_user")
-        password = os.getenv("ORACLE_PASSWORD", "amorty_pass")
-        
+        service_name = os.getenv("ORACLE_SERVICE_NAME", "xe")
+        username = os.getenv("ORACLE_USERNAME", "AMORTY")
+        password = os.getenv("ORACLE_PASSWORD", "sys")
+
         return f"oracle+cx_oracle://{username}:{password}@{host}:{port}/?service_name={service_name}"
-    
+
     def connect(self):
         """Connect to Oracle database."""
         try:
@@ -43,7 +43,7 @@ class OracleDatabase:
         except Exception as e:
             print(f"❌ Failed to connect to Oracle database: {e}")
             return False
-    
+
     def create_tables(self):
         """Create all tables in Oracle database."""
         try:
@@ -54,7 +54,7 @@ class OracleDatabase:
         except Exception as e:
             print(f"❌ Failed to create tables: {e}")
             return False
-    
+
     def get_session(self):
         """Get database session."""
         if self.session_maker:
@@ -77,34 +77,34 @@ def seed_sample_data():
     session = oracle_db.get_session()
     if not session:
         return
-    
+
     try:
         # Check if data already exists
         if session.query(Customer).first():
             print("Sample data already exists!")
             return
-        
+
         # Create sample users
         from .auth import AuthState
         auth_state = AuthState()
-        
+
         admin_user = User(
             username="admin",
             email="admin@amorty.com",
             hashed_password=auth_state.hash_password("admin123"),
             role=UserRole.ADMIN
         )
-        
+
         customer_user = User(
             username="customer1",
             email="customer@example.com",
             hashed_password=auth_state.hash_password("customer123"),
             role=UserRole.CUSTOMER
         )
-        
+
         session.add_all([admin_user, customer_user])
         session.commit()
-        
+
         # Create sample customers
         customers = [
             Customer(
@@ -136,7 +136,7 @@ def seed_sample_data():
                 loyalty_points=210
             )
         ]
-        
+
         # Create sample employees
         employees = [
             Employee(
@@ -170,7 +170,7 @@ def seed_sample_data():
                 shift=Shift.NIGHT
             )
         ]
-        
+
         # Create sample menu items
         menu_items = [
             MenuCafe(
@@ -206,7 +206,7 @@ def seed_sample_data():
                 preparation_time=3
             )
         ]
-        
+
         # Create sample billiard tables
         tables = [
             BilliardTable(
@@ -238,11 +238,11 @@ def seed_sample_data():
                 condition=TableCondition.NEEDS_REPAIR
             )
         ]
-        
+
         # Add all sample data
         session.add_all(customers + employees + menu_items + tables)
         session.commit()
-        
+
         # Create sample orders
         orders = [
             Order(
@@ -263,10 +263,10 @@ def seed_sample_data():
                 tax=0.90
             )
         ]
-        
+
         session.add_all(orders)
         session.commit()
-        
+
         # Create sample order items
         order_items = [
             OrderItem(
@@ -302,12 +302,12 @@ def seed_sample_data():
                 subtotal=5.50
             )
         ]
-        
+
         session.add_all(order_items)
         session.commit()
-        
+
         print("✅ Sample data seeded successfully!")
-        
+
     except Exception as e:
         print(f"❌ Failed to seed sample data: {e}")
         session.rollback()
